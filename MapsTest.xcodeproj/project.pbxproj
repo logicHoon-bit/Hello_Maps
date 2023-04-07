@@ -16,6 +16,8 @@
 		4BC61FBE29E035C400980869 /* MapsTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC61FBD29E035C400980869 /* MapsTestTests.swift */; };
 		4BC61FC829E035C400980869 /* MapsTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC61FC729E035C400980869 /* MapsTestUITests.swift */; };
 		4BC61FCA29E035C400980869 /* MapsTestUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC61FC929E035C400980869 /* MapsTestUITestsLaunchTests.swift */; };
+		4BC61FD729E0367100980869 /* ConfigureSubviewsCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC61FD629E0367100980869 /* ConfigureSubviewsCase.swift */; };
+		4BC61FD929E0374000980869 /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC61FD829E0374000980869 /* Annotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		4BC61FC329E035C400980869 /* MapsTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MapsTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC61FC729E035C400980869 /* MapsTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsTestUITests.swift; sourceTree = "<group>"; };
 		4BC61FC929E035C400980869 /* MapsTestUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapsTestUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4BC61FD629E0367100980869 /* ConfigureSubviewsCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureSubviewsCase.swift; sourceTree = "<group>"; };
+		4BC61FD829E0374000980869 /* Annotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,8 @@
 				4BC61FAF29E035C400980869 /* Assets.xcassets */,
 				4BC61FB129E035C400980869 /* LaunchScreen.storyboard */,
 				4BC61FB429E035C400980869 /* Info.plist */,
+				4BC61FD629E0367100980869 /* ConfigureSubviewsCase.swift */,
+				4BC61FD829E0374000980869 /* Annotation.swift */,
 			);
 			path = MapsTest;
 			sourceTree = "<group>";
@@ -258,6 +264,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BC61FD729E0367100980869 /* ConfigureSubviewsCase.swift in Sources */,
+				4BC61FD929E0374000980869 /* Annotation.swift in Sources */,
 				4BC61FAB29E035C300980869 /* ViewController.swift in Sources */,
 				4BC61FA729E035C300980869 /* AppDelegate.swift in Sources */,
 				4BC61FA929E035C300980869 /* SceneDelegate.swift in Sources */,
