@@ -94,13 +94,6 @@ class ViewController: UIViewController {
         
     }
     
-    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        
-        view.subviews.forEach { subView in
-            subView.removeFromSuperview()
-        }
-        
-    }
     
 }
 
@@ -155,32 +148,20 @@ extension ViewController: MKMapViewDelegate {
             return
         }
         
-        let customCalloutView = UIView(frame: CGRect.zero)
-        customCalloutView.translatesAutoresizingMaskIntoConstraints = false
-        customCalloutView.layer.cornerRadius = 10.0
-        customCalloutView.layer.masksToBounds = true
-        customCalloutView.backgroundColor = .blue
+        let customCalloutView = CustomCalloutView(annotation: annotation, frame: CGRect.zero)
         
-        view.addSubview(customCalloutView)
+        customCalloutView.add(to: view)
         
-        customCalloutView.bottomAnchor.constraint(equalTo: view.topAnchor, constant: -5).isActive = true
-        customCalloutView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        customCalloutView.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        customCalloutView.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        
-        let titleLabel = UILabel(frame: CGRect.zero)
-        titleLabel.textColor = .white
-        titleLabel.text = annotation.title
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        customCalloutView.addSubview(titleLabel)
-        
-        titleLabel.centerXAnchor.constraint(equalTo: customCalloutView.centerXAnchor).isActive = true
-        titleLabel.centerYAnchor.constraint(equalTo: customCalloutView.centerYAnchor).isActive = true
-        titleLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        titleLabel.heightAnchor.constraint(equalToConstant: 44).isActive = true
     }
     
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        
+        view.subviews.forEach { subView in
+            subView.removeFromSuperview()
+        }
+        
+    }
+
     
 }
 
