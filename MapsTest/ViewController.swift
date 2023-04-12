@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     var mapView: MKMapView!
     var mapSegment: UISegmentedControl!
     var addAnnotation: UIButton!
+    var addAddressViewButton: UIButton!
     
     //MARK: - LifeCycle
     
@@ -27,18 +28,18 @@ class ViewController: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         setLocationManager()
         
-        configureSubviews()
+       
+        
+        configureSubviews() //layout
+        addPointOfInterest()
     }
 
     //MARK: setLocationManager
     func setLocationManager() {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = kCLDistanceFilterNone //업데이트를 위한 이동해야하는 최소거리, kCLDistanceFilterNone을 설정함으로서 위치가 변경될 때 마다 업데이트됨
-         
         locationManager.startUpdatingLocation()
     }
-    
-  //test  1
     
     @objc func changedMapStyl(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
@@ -60,6 +61,61 @@ class ViewController: UIViewController {
         annotation.subtitle = "subtitle"
         //annotation.imageURL = "pin@x3"
         mapView.addAnnotation(annotation)
+    }
+    
+    @objc func showAddAddressView() {
+        let alertVC = UIAlertController(title: "Add Address", message: "input message", preferredStyle: .alert)
+        
+        alertVC.addTextField() { textField in
+            
+        }
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { action in
+            if let textField = alertVC.textFields?.first {
+                self.reverseGeocode(address: textField.text!)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alertVC.addAction(okAction)
+        alertVC.addAction(cancelAction)
+        
+        self.present(alertVC, animated: true)
+    }
+    
+    private func reverseGeocode(address: String) {
+        let geoCoder = CLGeocoder()
+        
+        geoCoder.geocodeAddressString(address) { placeMarks, error in //placeMarks: 실제 찾은 위치
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard let placeMarks = placeMarks, let placeMark = placeMarks.first else {
+                return
+            }
+            
+            self.addPlaceMarkToMap(placeMark: placeMark)
+        }
+    }
+    
+    private func addPlaceMarkToMap(placeMark: CLPlacemark) {
+        
+        let coordinate = placeMark.location?.coordinate
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate!
+        self.mapView.addAnnotation(annotation)
+        
+    }
+    
+    private func addPointOfInterest() {
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: 36.3164, longitude: 127.4444)
+        self.mapView.addAnnotation(annotation)
+        
     }
     
     private func configureView(_ annotationView: MKAnnotationView?) {
@@ -178,12 +234,14 @@ extension ViewController: ConfigureSubviewsCase {
         mapView = MKMapView(frame: view.frame)
         mapSegment = UISegmentedControl(items: ["Maps", "Satellite", "Hybrid"])
         addAnnotation = UIButton()
+        addAddressViewButton = UIButton()
     }
     
     func addSubviews() {
         view.addSubview(mapView)
-        view.addSubview(mapSegment)
-        view.addSubview(addAnnotation)
+        mapView.addSubview(mapSegment)
+        mapView.addSubview(addAnnotation)
+        mapView.addSubview(addAddressViewButton)
     }
     
     func setupLayouts() {
@@ -208,6 +266,10 @@ extension ViewController: SetupSubviewsLayouts {
         addAnnotation.tintColor = .white
         addAnnotation.layer.cornerRadius = 10
         addAnnotation.addTarget(self, action: #selector(addAnnotationButtonPressed), for: .touchUpInside)
+        
+        addAddressViewButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        addAddressViewButton.tintColor = .black
+        addAddressViewButton.addTarget(self, action: #selector(showAddAddressView), for: .touchUpInside)
     }
     
     
@@ -227,6 +289,12 @@ extension ViewController: SetupSubviewsConstraints {
         NSLayoutConstraint.activate([
             addAnnotation.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             addAnnotation.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        addAddressViewButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            addAddressViewButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            addAddressViewButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
         ])
     }
     
