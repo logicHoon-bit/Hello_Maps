@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     var mapSegment: UISegmentedControl!
     var addAnnotation: UIButton!
     var addAddressViewButton: UIButton!
+    var directionViewButton: UIButton!
+    var directions = [String]()
     
     //MARK: - LifeCycle
     
@@ -79,10 +81,41 @@ class ViewController: UIViewController {
                     
                     let destinationPlacemark = MKPlacemark(coordinate: (placemark.location?.coordinate)!)
                     
+                    //사용자의 현재 위치의 mapItem 생성
+                    let startingMapItem = MKMapItem.forCurrentLocation()
+                    //입력한 주소의 mapItem생성
                     let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
                     
-                    //지도항목을 표시하는 기능(지도앱으로)
-                    MKMapItem.openMaps(with: [destinationMapItem])
+                    let request = MKDirections.Request()
+                    request.transportType = .walking
+                    request.source = startingMapItem
+                    request.destination = destinationMapItem
+                    
+                    let direction = MKDirections(request: request)
+                    direction.calculate { response, error in
+                        if let error = error {
+                            print(error.localizedDescription)
+                            return
+                        }
+                        
+                        //rotue.first에는 경로의 경우의 수 중 가장 빠른 경로를 가지고 있음
+                        guard let response = response, let route = response.routes.first else {
+                            return
+                        }
+                        
+                        //경로에서 이동할 step이 있는 경우 실행
+                        if !route.steps.isEmpty {
+                            for step in route.steps {
+                                print(step.instructions) //지점에 대한 방향 안내의 string
+                                
+                                self.directions.append(step.instructions)
+                            }
+                        }
+                        
+                        self.mapView.addOverlay(route.polyline, level: .aboveRoads)
+                        
+                    }
+                    
                 }
                 
             }
@@ -94,6 +127,12 @@ class ViewController: UIViewController {
         alertVC.addAction(cancelAction)
         
         self.present(alertVC, animated: true)
+    }
+    
+    @objc func showDirectionTableView() {
+        let directionTableVC = DirectionTableViewController()
+        directionTableVC.directions = self.directions
+        present(directionTableVC, animated: true)
     }
     
     //MARK: - CustomLogic
@@ -255,6 +294,7 @@ extension ViewController: MKMapViewDelegate {
     }
 
     //지정한 오버레이를 그릴 때 사용할 렌더러 개체를 Delegate에게 요청
+    //route의 polyline을 추가 할 때 이 함수가 호출됨
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKCircle {
             let circleRenderer = MKCircleRenderer(circle: overlay as! MKCircle)
@@ -263,6 +303,12 @@ extension ViewController: MKMapViewDelegate {
             circleRenderer.fillColor = .purple
             circleRenderer.alpha = 0.4 //투명도
             return circleRenderer
+        }
+        else if overlay is MKPolyline {
+            let polylineRenderer = MKPolylineRenderer(overlay: overlay)
+            polylineRenderer.lineWidth = 5.0
+            polylineRenderer.strokeColor = .purple
+            return polylineRenderer
         }
         
         return MKOverlayRenderer()
@@ -284,6 +330,7 @@ extension ViewController: ConfigureSubviewsCase {
         mapSegment = UISegmentedControl(items: ["Maps", "Satellite", "Hybrid"])
         addAnnotation = UIButton()
         addAddressViewButton = UIButton()
+        directionViewButton = UIButton()
     }
     
     func addSubviews() {
@@ -291,6 +338,7 @@ extension ViewController: ConfigureSubviewsCase {
         mapView.addSubview(mapSegment)
         mapView.addSubview(addAnnotation)
         mapView.addSubview(addAddressViewButton)
+        mapView.addSubview(directionViewButton)
     }
     
     func setupLayouts() {
@@ -319,6 +367,10 @@ extension ViewController: SetupSubviewsLayouts {
         addAddressViewButton.setImage(UIImage(systemName: "plus"), for: .normal)
         addAddressViewButton.tintColor = .black
         addAddressViewButton.addTarget(self, action: #selector(showAddAddressView), for: .touchUpInside)
+        
+        directionViewButton.setImage(UIImage(systemName: "signpost.right.and.left"), for: .normal)
+        directionViewButton.tintColor = .black
+        directionViewButton.addTarget(self, action: #selector(showDirectionTableView), for: .touchUpInside)
     }
     
     
@@ -343,7 +395,13 @@ extension ViewController: SetupSubviewsConstraints {
         addAddressViewButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             addAddressViewButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            addAddressViewButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
+            addAddressViewButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20)
+        ])
+        
+        directionViewButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            directionViewButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            directionViewButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     

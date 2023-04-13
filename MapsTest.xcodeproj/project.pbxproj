@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B14067929E7D7C7007BD6EA /* DirectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B14067829E7D7C7007BD6EA /* DirectionTableViewController.swift */; };
+		4B14067B29E7DBFB007BD6EA /* DirectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B14067A29E7DBFB007BD6EA /* DirectionTableViewCell.swift */; };
 		4BC61FA729E035C300980869 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC61FA629E035C300980869 /* AppDelegate.swift */; };
 		4BC61FA929E035C300980869 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC61FA829E035C300980869 /* SceneDelegate.swift */; };
 		4BC61FAB29E035C300980869 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC61FAA29E035C300980869 /* ViewController.swift */; };
@@ -39,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4B14067829E7D7C7007BD6EA /* DirectionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionTableViewController.swift; sourceTree = "<group>"; };
+		4B14067A29E7DBFB007BD6EA /* DirectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionTableViewCell.swift; sourceTree = "<group>"; };
 		4BC61FA329E035C300980869 /* MapsTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MapsTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC61FA629E035C300980869 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4BC61FA829E035C300980869 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +112,7 @@
 				4BC61FA629E035C300980869 /* AppDelegate.swift */,
 				4BC61FA829E035C300980869 /* SceneDelegate.swift */,
 				4BC61FAA29E035C300980869 /* ViewController.swift */,
+				4B14067829E7D7C7007BD6EA /* DirectionTableViewController.swift */,
 				4BC61FAC29E035C300980869 /* Main.storyboard */,
 				4BC61FAF29E035C400980869 /* Assets.xcassets */,
 				4BC61FB129E035C400980869 /* LaunchScreen.storyboard */,
@@ -115,6 +120,7 @@
 				4BC61FD629E0367100980869 /* ConfigureSubviewsCase.swift */,
 				4BC61FD829E0374000980869 /* Annotation.swift */,
 				4BC61FDC29E1D86800980869 /* CustomCalloutView.swift */,
+				4B14067A29E7DBFB007BD6EA /* DirectionTableViewCell.swift */,
 			);
 			path = MapsTest;
 			sourceTree = "<group>";
@@ -267,8 +273,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B14067929E7D7C7007BD6EA /* DirectionTableViewController.swift in Sources */,
 				4BC61FDD29E1D86800980869 /* CustomCalloutView.swift in Sources */,
 				4BC61FD729E0367100980869 /* ConfigureSubviewsCase.swift in Sources */,
+				4B14067B29E7DBFB007BD6EA /* DirectionTableViewCell.swift in Sources */,
 				4BC61FD929E0374000980869 /* Annotation.swift in Sources */,
 				4BC61FAB29E035C300980869 /* ViewController.swift in Sources */,
 				4BC61FA729E035C300980869 /* AppDelegate.swift in Sources */,
