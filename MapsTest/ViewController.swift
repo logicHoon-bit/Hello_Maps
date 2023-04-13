@@ -75,8 +75,11 @@ class ViewController: UIViewController {
         }
         
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
-            if let textField = alertVC.textFields?.first { //address
-                                
+            if let textField = alertVC.textFields?.first, let search = textField.text { //address
+                  
+                self.findNearbyPOI(by: search)
+                
+                /*
                 self.reverseGeocode(address: textField.text!) { placemark in
                     
                     let destinationPlacemark = MKPlacemark(coordinate: (placemark.location?.coordinate)!)
@@ -117,6 +120,7 @@ class ViewController: UIViewController {
                     }
                     
                 }
+                */
                 
             }
         }
@@ -136,6 +140,31 @@ class ViewController: UIViewController {
     }
     
     //MARK: - CustomLogic
+    
+    private func findNearbyPOI(by searchTerm: String) {
+        
+        //다시 검색하기 위해 맵위에 올라간 어노테이션들 제거
+        let annotations = self.mapView.annotations
+        self.mapView.removeAnnotations(annotations)
+        
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = searchTerm
+        request.region = self.mapView.region
+        
+        let locationSearch = MKLocalSearch(request: request)
+        locationSearch.start { respon, error in
+            
+            guard let respon = respon, error == nil else {
+                return
+            }
+            
+            for mapItem in respon.mapItems {
+                self.addPlaceMarkToMap(placeMark: mapItem.placemark)
+            }
+            
+        }
+        
+    }
     
     private func reverseGeocode(address: String, _ completion: @escaping (CLPlacemark) -> ()) {
         
@@ -162,6 +191,7 @@ class ViewController: UIViewController {
         let coordinate = placeMark.location?.coordinate
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate!
+        annotation.title = placeMark.name
         self.mapView.addAnnotation(annotation)
         
     }
@@ -174,8 +204,8 @@ class ViewController: UIViewController {
         
         //location 범위
         let region = CLCircularRegion(center: annotation.coordinate, radius: 200, identifier: "Home")
-        region.notifyOnEntry = true
-        region.notifyOnExit = true
+        region.notifyOnEntry = true //didEnterRegion Delegate호출
+        region.notifyOnExit = true //didExitRegion Delegate호출
         
         self.mapView.addOverlay(MKCircle(center: annotation.coordinate, radius: 200)) //radius 는 반경의 miter 값
         
