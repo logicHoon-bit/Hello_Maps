@@ -73,8 +73,18 @@ class ViewController: UIViewController {
         }
         
         let okAction = UIAlertAction(title: "OK", style: .default) { action in
-            if let textField = alertVC.textFields?.first {
-                self.reverseGeocode(address: textField.text!)
+            if let textField = alertVC.textFields?.first { //address
+                                
+                self.reverseGeocode(address: textField.text!) { placemark in
+                    
+                    let destinationPlacemark = MKPlacemark(coordinate: (placemark.location?.coordinate)!)
+                    
+                    let destinationMapItem = MKMapItem(placemark: destinationPlacemark)
+                    
+                    //지도항목을 표시하는 기능(지도앱으로)
+                    MKMapItem.openMaps(with: [destinationMapItem])
+                }
+                
             }
         }
         
@@ -88,7 +98,8 @@ class ViewController: UIViewController {
     
     //MARK: - CustomLogic
     
-    private func reverseGeocode(address: String) {
+    private func reverseGeocode(address: String, _ completion: @escaping (CLPlacemark) -> ()) {
+        
         let geoCoder = CLGeocoder()
         
         geoCoder.geocodeAddressString(address) { placeMarks, error in //placeMarks: 실제 찾은 위치
@@ -101,8 +112,10 @@ class ViewController: UIViewController {
                 return
             }
             
-            self.addPlaceMarkToMap(placeMark: placeMark)
+            //self.addPlaceMarkToMap(placeMark: placeMark)
+            completion(placeMark)
         }
+        
     }
     
     private func addPlaceMarkToMap(placeMark: CLPlacemark) {
@@ -244,7 +257,7 @@ extension ViewController: MKMapViewDelegate {
     //지정한 오버레이를 그릴 때 사용할 렌더러 개체를 Delegate에게 요청
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKCircle {
-            var circleRenderer = MKCircleRenderer(circle: overlay as! MKCircle)
+            let circleRenderer = MKCircleRenderer(circle: overlay as! MKCircle)
             circleRenderer.lineWidth = 1.0
             circleRenderer.strokeColor = .purple //아마 가장자리 색상인듯
             circleRenderer.fillColor = .purple
