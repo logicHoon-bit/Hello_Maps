@@ -131,8 +131,6 @@ func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         }
     ```
     
-    ![스크린샷 2023-04-08 오전 1.53.53.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/808163ad-c192-40a7-8f8f-6d5749f946cd/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-04-08_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_1.53.53.png)
-    
 
 ```swift
 func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
