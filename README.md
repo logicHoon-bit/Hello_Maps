@@ -164,9 +164,6 @@ func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnota
 canShowCallout: **`MKAnnotationView`**가 선택되었을 때 해당 어노테이션 뷰의 오른쪽에 나타나는 풍선 모양의 캡션(Callout)을 표시할지 여부를 나타냄
 
 - CalloutView Cutom
-    
-    ![스크린샷 2023-04-08 오후 8.25.01.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8d23286f-5cd2-47d1-980b-1ef7ea0a06c6/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2023-04-08_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_8.25.01.png)
-    
 
 ```swift
 private func configureView(_ annotationView: MKAnnotationView?) {
@@ -456,8 +453,6 @@ let okAction = UIAlertAction(title: "OK", style: .default) { action in
 -directions은 로컬배열
 
 - 경로 오버레이(route.polyline)를 추가할경우 Delegate에 의해 **func** mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer 함수가 오출됨
-    
-    ![Simulator Screenshot - iPhone 14 Pro - 2023-04-13 at 18.15.51.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/42afbec6-26ad-44cf-bdba-c8751a730f6f/Simulator_Screenshot_-_iPhone_14_Pro_-_2023-04-13_at_18.15.51.png)
     
 
 ```swift
